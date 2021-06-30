@@ -12,7 +12,7 @@ app.use(cors())
 
 app.get("/photos",async (req,res) => {
     const albumId = req.query.albumId
-    client.get("photos",async (error, photos) => {
+    client.get(`photos?albumid=${albumId}`,async (error, photos) => {
         if (error) console.error(error);
         if (photos != null) {
             return res.json(JSON.parse(photos))
@@ -22,7 +22,7 @@ app.get("/photos",async (req,res) => {
                 "https://jsonplaceholder.typicode.com/photos",
                 { params : { albumId }}
             )
-            client.setex('photos',2400,JSON.stringify(data))
+            client.setex(`photos?albumid=${albumId}`,2400,JSON.stringify(data))
         }
         res.json(data)
     })
